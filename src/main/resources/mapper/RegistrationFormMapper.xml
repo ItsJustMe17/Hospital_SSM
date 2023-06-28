@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxy.mapper.RegistrationFormMapper">
+
+    <resultMap id="BaseResultMap" type="com.wxy.entity.RegistrationForm">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="medicalCardId" column="medical_card_id" jdbcType="INTEGER"/>
+            <result property="scheduleId" column="schedule_id" jdbcType="INTEGER"/>
+            <result property="consultationStatus" column="consultation_status" jdbcType="INTEGER"/>
+            <result property="consultationTime" column="consultation_time" jdbcType="TIMESTAMP"/>
+            <result property="creationTime" column="creation_time" jdbcType="TIMESTAMP"/>
+            <result property="fee" column="fee" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,medical_card_id,schedule_id,
+        consultation_status,consultation_time,creation_time,
+        fee
+    </sql>
+</mapper>

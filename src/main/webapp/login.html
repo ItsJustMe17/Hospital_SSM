@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录页面</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<form id="login-form">
+    <input type="text" id="account" name="account" placeholder="账号">
+    <input type="password" id="password" name="password" placeholder="密码">
+    <button type="submit">登录</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#login-form").submit(function (event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+
+            var account = $("#account").val();
+            var password = $("#password").val();
+
+            var data = {
+                account: account,
+                password: password
+            };
+
+            $.ajax({
+                url: "user/login",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response === "success") {
+                        alert("登录成功");
+                        window.location.href = 'index.html';
+                        // 执行登录成功后的操作
+                    } else {
+                        alert("登录失败");
+                        // 执行登录失败后的操作
+                    }
+                },
+                error: function () {
+                    alert("请求出错");
+                    // 处理请求错误的情况
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

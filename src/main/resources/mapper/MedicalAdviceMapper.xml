@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxy.mapper.MedicalAdviceMapper">
+
+    <resultMap id="BaseResultMap" type="com.wxy.entity.MedicalAdvice">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="registrationFormId" column="registration_form_id" jdbcType="INTEGER"/>
+            <result property="chiefComplaint" column="chief_complaint" jdbcType="VARCHAR"/>
+            <result property="diagnosis" column="diagnosis" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,registration_form_id,chief_complaint,
+        diagnosis
+    </sql>
+</mapper>
