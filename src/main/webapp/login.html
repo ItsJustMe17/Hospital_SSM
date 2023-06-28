@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登录页面</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>W X Y 青芽管理系统</title>
+    <link rel="stylesheet" href="layui/css/login.css">
+    <script type="text/javascript" src="layui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="layui/js/index.js"></script>
+    <script src="layui/lib/layui/layui.js" charset="utf-8"></script>
 </head>
-<body>
-<form id="login-form">
-    <input type="text" id="account" name="account" placeholder="账号">
-    <input type="password" id="password" name="password" placeholder="密码">
-    <button type="submit">登录</button>
-</form>
-
+<body class="login-bg">
+<canvas id="fullstarbg">你的浏览器不支持canvas标签</canvas>
+<div class="login">
+    <div class="message">W X Y 青芽系统登录</div>
+    <div id="darkbannerwrap"></div>
+    <form method="post" class="layui-form" onsubmit="return false;" id="login-form">
+        <input type="text" id="account" name="account" placeholder="账号">
+        <hr class="hr15">
+        <input type="password" id="password" name="password" placeholder="密码">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <hr class="hr20">
+    </form>
+</div>
 <script>
     $(document).ready(function () {
         $("#login-form").submit(function (event) {
@@ -46,6 +58,11 @@
             });
         });
     });
+
 </script>
+
+
+<!-- 底部结束 -->
+
 </body>
 </html>

@@ -1,9 +1,5 @@
 package com.wxy.controller;
 
-import com.alibaba.druid.util.StringUtils;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wxy.common.result.Result;
 import com.wxy.common.result.ResultUtils;
 import com.wxy.entity.User;
 import com.wxy.entity.dto.UserDto;
