@@ -103,8 +103,8 @@
 
             $.post("user/login", {"account": account, "password": password}, function (res) {
                 if (res.code == 200) {
-                    //登录成功
-                    window.location.href = "index.html"
+                    //登录成功并跳转界面
+                    window.location.href = "index.jsp"
                 } else {
                     layer.msg(res.msg)
                 }

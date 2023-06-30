@@ -34,6 +34,8 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+
     <!--配置拦截器-->
     <mvc:interceptors>
         <!--登录拦截器-->
@@ -44,4 +46,7 @@
             <bean class="com.wxy.common.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
+
+
 </beans>

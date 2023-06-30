@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 import lombok.Data;
 
 /**
@@ -49,7 +49,7 @@ public class MedicalCard implements Serializable {
      * 出生日期
      */
     @TableField(value = "date_of_birth")
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

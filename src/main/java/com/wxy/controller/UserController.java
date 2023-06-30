@@ -1,7 +1,6 @@
 package com.wxy.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wxy.common.result.ResultUtils;
 import com.wxy.common.util.EmptyUtils;
@@ -27,10 +26,13 @@ public class UserController {
     //查询所有用户信息
     @RequestMapping("/getAllUser")
     public Object getAllUser(UserDto userDto) {
-        Page<User> p = new Page<User>(userDto.getPage(), userDto.getLimit());
+        Page<User> p = new Page<>(userDto.getPage(), userDto.getLimit());
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        if (EmptyUtils.isNotEmpty(userDto.getUsername())) {
-            queryWrapper.like("user_name", userDto.getUsername());
+        if (EmptyUtils.isNotEmpty(userDto.getUserName())) {
+            queryWrapper.like("user_name", userDto.getUserName());
+        }
+        if (EmptyUtils.isNotEmpty(userDto.getDepartmentId())) {
+            queryWrapper.eq("department_id", userDto.getDepartmentId());
         }
         queryWrapper.orderByDesc("id");
         Page<User> ipage = userService.page(p, queryWrapper);
@@ -121,6 +123,16 @@ public class UserController {
         } else {
             return ResultUtils.returnFail();
         }
+    }
+
+    @RequestMapping("/getUserByDepartmentId")
+    public Object getUserByDepartmentId(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if (EmptyUtils.isNotEmpty(user.getDepartmentId())) {
+            queryWrapper.eq("department_id", user.getDepartmentId());
+        }
+        List<User> list = userService.list(queryWrapper);
+        return ResultUtils.returnDataSuccess(list);
     }
 
 }

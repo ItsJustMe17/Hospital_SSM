@@ -7,14 +7,52 @@
     <resultMap id="BaseResultMap" type="com.wxy.entity.Schedule">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="departmentId" column="department_id" jdbcType="INTEGER"/>
             <result property="roomId" column="room_id" jdbcType="INTEGER"/>
-            <result property="timeSlot" column="time_slot" jdbcType="VARCHAR"/>
+            <result property="timeSlot" column="time_slot" jdbcType="INTEGER"/>
             <result property="totalPatientCount" column="total_patient_count" jdbcType="INTEGER"/>
             <result property="remainingPatientCount" column="remaining_patient_count" jdbcType="INTEGER"/>
+            <result property="inquiryTime" column="inquiry_time" jdbcType="DATE"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,room_id,
-        time_slot,total_patient_count,remaining_patient_count
+        id,user_id,department_id,
+        room_id,time_slot,total_patient_count,
+        remaining_patient_count,inquiry_time,created_time,
+        updated_time
     </sql>
+    <select id="getAllSchedule" resultType="com.wxy.entity.vo.ScheduleVo">
+        select schedule.*,
+        room.room_name as roomName,
+        user.user_name as userName,
+        department.department_name as deptName
+
+        from schedule,
+        user,
+        room,
+        department
+
+        where schedule.user_id = user.id
+        and schedule.room_id = room.id
+        and schedule.department_id = department.id
+
+        <if test="userName!=null and userName!=''">
+            and user.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="deptName!=null and deptName!=''">
+            and department.department_name = #{deptName}
+        </if>
+        <if test="roomName!=null and roomName!=''">
+            and room.room_name = #{roomName}
+        </if>
+        <if test="departmentId!=null and departmentId!=''">
+            and schedule.department_id = #{departmentId}
+        </if>
+        order by schedule.id desc
+        <if test="page!=null and page!='' and limit!=null and limit!=''">
+            limit ${(page-1)*limit},#{limit}
+        </if>
+    </select>
 </mapper>
