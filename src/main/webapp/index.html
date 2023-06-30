@@ -35,12 +35,12 @@
             <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
                 <a href="javascript:;">
                     <img src="https://unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
-                    tester
+                    <span id="userName"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;">Your Profile</a></dd>
-                    <dd><a href="javascript:;">Settings</a></dd>
-                    <dd><a href="login.html">登出</a></dd>
+                    <dd><a href="javascript:;">修改密码</a></dd>
+                    <dd><a href="javascript:" id="logoutBtn">退出登录</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
@@ -104,6 +104,24 @@
         var layer = layui.layer;
         var util = layui.util;
         var $ = layui.$;
+
+        // 点击退出登录按钮跳转到登陆界面
+        $('#logoutBtn').click(function () {
+            $.get('user/logout', function () {
+                window.location.href = "login.jsp"
+            })
+        })
+
+        $.get('user/getCurrUserInfo', function (res) {
+            if (res.code == 200) {
+                // 获取并传入用户名
+                $('#userName').html(res.data.username)
+            } else {
+                window.location.href = "login.jsp";
+            }
+        }, 'json')
+
+
         //头部事件
         util.event('lay-header-event', {
             menuLeft: function (othis) { // 左侧菜单事件

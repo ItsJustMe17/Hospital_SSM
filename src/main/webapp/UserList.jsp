@@ -15,30 +15,11 @@
                 <input type="text" name="username" autocomplete="off" class="layui-input">
             </div>
         </div>
-
         <div class="layui-inline">
-            <label class="layui-form-mid">创建时间:</label>
-            <div class="layui-input-inline" style="width: 120px;">
-                <input type="date" name="beginTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-mid">--</label>
-            <div class="layui-input-inline" style="width: 120px;">
-                <input type="date" name="endTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-label">所属科室：</label>
+            <label class="layui-form-label">所属部门：</label>
             <div class="layui-input-inline" style="width: 150px;">
-                <select name="departmentId" lay-verify="" class="layui-select">
-                    <option selected hidden disabled value="" selected>请选择所属科室</option>
-                    <option value="1">内科</option>
-                    <option value="2">外科</option>
-                    <option value="3">儿科</option>
-                    <option value="4">眼科</option>
+                <select name="departmentId" class="departmentId">
+                    <option selected hidden disabled value="" selected>请选择所属部门</option>
                 </select>
             </div>
         </div>
@@ -76,17 +57,17 @@
 <%--添加的表单--%>
 <form class="layui-form" action="" id="addForm" style="display: none">
     <div class="layui-form-item">
-        <label class="layui-form-label">所属科室：</label>
+        <label class="layui-form-label">用户名（姓名）：</label>
         <div class="layui-input-inline">
-            <input type="text" name="departmentId" required lay-verify="required" placeholder="请输入所属科室"
+            <input type="text" name="username" required lay-verify="required" placeholder="请输入所属科室"
                    autocomplete="off"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">医生名：</label>
+        <label class="layui-form-label">账号：</label>
         <div class="layui-input-inline">
-            <input type="text" name="username" required lay-verify="required" placeholder="请输入医生名"
+            <input type="text" name="account" required lay-verify="required" placeholder="请输入医生名"
                    autocomplete="off"
                    class="layui-input">
         </div>
@@ -94,39 +75,27 @@
     <div class="layui-form-item">
         <label class="layui-form-label">密码：</label>
         <div class="layui-input-inline">
-            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                   autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">创建时间：</label>
-        <div class="layui-input-inline">
-            <input type="text" name="createdTime" id="createdTime" readonly lay-verify="required"
-                   autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">创建人：</label>
-        <div class="layui-input-inline">
-            <input type="text" name="creator" required lay-verify="required" placeholder="请输入创建人"
+            <input type="password" name="password" value="123456" required lay-verify="required"
+                   placeholder="请输入密码"
                    autocomplete="off"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">状态：</label>
+        <label class="layui-form-label">手机号：</label>
         <div class="layui-input-inline">
-            <select name="status" lay-verify="" class="layui-select">
-                <option selected hidden disabled value="" selected>请选择目前的状态</option>
-                <option value="0">启用</option>
-                <option value="1">禁用</option>
-            </select>
+            <input type="text" name="phoneNumber" required lay-verify="required" placeholder="请输入手机号"
+                   autocomplete="off"
+                   class="layui-input">
         </div>
-
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="idCardNumber" required lay-verify="required" placeholder="请输入身份证号"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户类型：</label>
@@ -148,29 +117,19 @@
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
-
-
 </form>
 
 
 <%--修改的表单--%>
 <form class="layui-form" action="" id="updateForm" lay-filter="updateForm" style="display: none">
     <div class="layui-form-item">
-        <label class="layui-form-label">医生ID</label>
+        <label class="layui-form-label">用户ID</label>
         <div class="layui-input-inline">
             <input type="text" name="id" readonly autocomplete="off" class="layui-input">
         </div>
     </div>
-
     <div class="layui-form-item">
-        <label class="layui-form-label">所属科室ID：</label>
-        <div class="layui-input-inline">
-            <input type="text" name="departmentId" required lay-verify="required" autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">医生名：</label>
+        <label class="layui-form-label">用户名称：</label>
         <div class="layui-input-inline">
             <input type="text" name="username" required lay-verify="required" autocomplete="off"
                    class="layui-input">
@@ -179,26 +138,15 @@
     <div class="layui-form-item">
         <label class="layui-form-label">密码：</label>
         <div class="layui-input-inline">
-            <input type="password" name="password" required lay-verify="required" placeholder="请输入标题"
-                   autocomplete="off"
+            <input type="password" name="password" required lay-verify="required" autocomplete="off"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">修改时间：</label>
+        <label class="layui-form-label">所属部门：</label>
         <div class="layui-input-inline">
-            <input type="text" name="modifiedTime" id="modifiedTime"  readonly lay-verify="required"
-                   autocomplete="off"
-                   class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">状态：</label>
-        <div class="layui-input-inline">
-            <select name="status" lay-verify="" class="layui-select-inline">
-                <option selected hidden disabled value="" selected>请选择目前的状态</option>
-                <option value="0">启用</option>
-                <option value="1">禁用</option>
+            <select name="departmentId" class="departmentId">
+                <option selected hidden disabled value="" selected>请选择部门</option>
             </select>
         </div>
     </div>
@@ -226,35 +174,31 @@
 <%--脚本--%>
 <script>
     layui.use(['table', 'form', 'laydate'], function () {
-        var table = layui.table;
-        var form = layui.form;
-        var $ = layui.$;
-        var laydate = layui.laydate;
+        const table = layui.table;
+        const form = layui.form;
+        const $ = layui.$;
 
-        // 获取当前时间
-        laydate.render({
-            elem: '#createdTime',// input里时间的Id
-            value: new Date(),
-            done: function (value, date) {
-            }
-        });
 
-        // 获取当前时间
-        laydate.render({
-            elem: '#modifiedTime',// input里时间的Id
-            value: new Date(),
-            done: function (value, date) {
+        //发送ajax请求获取部门表的数据,渲染在部门的下拉列表中
+        $.get("department/getAllDept", {}, function (res) {
+            if (res.code == 200) {
+                const arr = res.data;
+                for (let i = 0; i < arr.length; i++) {
+                    $(".departmentId").append(' <option value="' + arr[i].id + '">' + arr[i].departmentName + '</option> ');
+                }
+                form.render('select'); //刷新select选择框渲染
             }
-        });
+        }, "json")
+
 
         //表单监听提交--添加
         form.on('submit(addFormBtn)', function (data) {
             //layer.msg(JSON.stringify(data.field));  //   {"sname":"","sex":"","score_min":"","score_max":""}
-            $.post("doctors/addDoctorLayui", data.field, function (res) {
-                if (res.code == 0) {
+            $.post("user/addUser", data.field, function (res) {
+                if (res.code == 200) {
                     layer.msg('添加成功', {
                         icon: 1,
-                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
                     }, function () {
                         layer.closeAll();  //关闭所有弹窗
                         table.reload("idTest")
@@ -262,8 +206,6 @@
                 }
             }, "json")
             return false;
-
-
         });
 
         /*
@@ -284,11 +226,11 @@
         //表单监听提交--修改
         form.on('submit(updateFormBtn)', function (data) {
             //layer.msg(JSON.stringify(data.field));  //   {"sname":"","sex":"","score_min":"","score_max":""}
-            $.post("doctors/updateDoctorLayui", data.field, function (res) {
-                if (res.code == 0) {
+            $.post("user/updateUserById", data.field, function (res) {
+                if (res.code == 200) {
                     layer.msg('修改成功', {
                         icon: 1,
-                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
                     }, function () {
                         layer.closeAll();  //关闭所有弹窗
                         table.reload("idTest")
@@ -320,8 +262,8 @@
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
-                        $.post("doctors/delete", obj.data, function (res) {
-                            if (res.code == 0) {
+                        $.post("user/removeUserById", obj.data, function (res) {
+                            if (res.code == 200) {
                                 layer.msg("删除成功")
                             }
                         }, "json")
@@ -349,13 +291,28 @@
             , url: 'user/getAllUser' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'}
-                , {field: 'departmentId', title: '科室ID', width: 80}
-                , {field: 'username', title: '用户名', width: 120,}
-                , {field: 'password', title: '密码', width: 120}
-                , {field: 'createdTime', title: '创建时间', width: 180}
-                , {field: 'modifiedTime', title: '修改时间', width: 180,}
-                , {field: 'creator', title: '创建人', width: 120,}
+                {field: 'id', title: '用户ID', width: 80, sort: true, fixed: 'left'}
+                , {field: 'username', title: '姓名', width: 80}
+                , {field: 'account', title: '账号', width: 120,}
+                , {field: 'password', title: '未加密的密码', width: 120}
+                , {field: 'phoneNumber', title: '手机号', width: 180}
+                , {field: 'idCardNumber', title: '身份证号', width: 200,}
+                , {
+                    field: 'departmentId', title: '所属部门', width: 100,
+                    templet: function (d) {
+                        if (d.departmentId === 1) {
+                            return '<div style="color:#5FB878;" >内科</div>';
+                        } else if (d.departmentId === 2) {
+                            return '<div style="color:#FF5722;" >外科</div>';
+                        } else if (d.departmentId === 3) {
+                            return '<div style="color:#FFB800;" >儿科</div>';
+                        } else if (d.departmentId === 4) {
+                            return '<div style="color:#1E9FFF;" >口腔科</div>';
+                        } else {
+                            return '<div style="color:#555555;" >未定义</div>';
+                        }
+                    }
+                }
                 , {
                     field: 'status', title: '状态', width: 80, templet: function (d) {
                         if (d.status === 0) {

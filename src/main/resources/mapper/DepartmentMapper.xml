@@ -7,9 +7,12 @@
     <resultMap id="BaseResultMap" type="com.wxy.entity.Department">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="departmentName" column="department_name" jdbcType="VARCHAR"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,department_name
+        id,department_name,created_time,
+        updated_time
     </sql>
 </mapper>

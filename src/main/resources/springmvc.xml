@@ -34,5 +34,14 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <!--登录拦截器-->
+        <mvc:interceptor>
+            <!-- 要拦截的路径，/**代表拦截所有 -->
+            <mvc:mapping path="/**"/>
+            <!-- 拦截器的全限定路径 -->
+            <bean class="com.wxy.common.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

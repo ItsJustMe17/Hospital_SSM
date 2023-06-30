@@ -24,6 +24,16 @@
     </form>
 </div>
 <script>
+    layui.use(['element', 'layer', 'util'], function () {
+        var $ = layui.$;
+        $(".btn").click(function () {
+            var account = $("#account").val();
+            var password = $("#password").val();
+
+
+        })
+
+    })
     $(document).ready(function () {
         $("#login-form").submit(function (event) {
             event.preventDefault(); // 阻止表单默认提交行为
@@ -35,7 +45,14 @@
                 account: account,
                 password: password
             };
-
+            $.post("user/login1", {"account":account , "password": password}, function (res) {
+                if(res.code===200){
+                    //登录成功
+                    window.location.href="index.html"
+                }else{
+                    layer.msg(res.msg)
+                }
+            }, "json")
             $.ajax({
                 url: "user/login",
                 type: "POST",
@@ -48,6 +65,7 @@
                         // 执行登录成功后的操作
                     } else {
                         alert("登录失败");
+                        // layui.msg(response.msg);
                         // 执行登录失败后的操作
                     }
                 },
