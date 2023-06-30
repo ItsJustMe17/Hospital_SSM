@@ -5,8 +5,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
-        xmlns:tx="http://www.springframework.org/schema/tx"
-        xsi:schemaLocation="http://www.springframework.org/schema/aop
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
@@ -19,7 +19,7 @@
 
 
     <!--开启bean扫描 -->
-   <context:component-scan base-package="com.wxy"/>
+    <context:component-scan base-package="com.wxy"/>
 
 
     <!-- 声明数据源DataSourcecom.alibaba.druid.pool.DruidDataSource -->
@@ -34,7 +34,7 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="dataSource" ref="myDataSource"/>
         <!-- 别名处理 -->
-<!--        <property name="typeAliasesPackage" value="com.wxy.entity"></property>-->
+<!--        <property name="typeAliasesPackage" value="com.wxy.entity"/>-->
         <!-- 注入全局策略配置 -->
         <property name="globalConfig" ref="globalConfig"/>
         <property name="mapperLocations">
@@ -45,7 +45,7 @@
         <property name="plugins">
             <array>
                 <!-- 配置分页插件 -->
-                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></bean>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
             </array>
         </property>
     </bean>
@@ -55,7 +55,7 @@
         <property name="dbConfig" ref="dbConfig"/>
     </bean>
     <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig.DbConfig">
-        <property name="idType" value="AUTO"></property>
+        <property name="idType" value="AUTO"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.wxy.mapper"/>

@@ -40,7 +40,7 @@ public class DateUtils {
         Calendar tempEnd = Calendar.getInstance();
         tempEnd.setTime(end);
         while (tempStart.before(tempEnd) || tempStart.equals(tempEnd)) {
-            result.add(tempStart.getTime());
+            result.add((Date) tempStart.getTime());
             tempStart.add(Calendar.DAY_OF_YEAR, 1);
         }
         return result;
@@ -55,7 +55,7 @@ public class DateUtils {
      */
     public static final Date parse(String source,String format) throws ParseException {
         DateFormat df = new SimpleDateFormat(format);
-        return df.parse(source);
+        return (Date) df.parse(source);
     }
 
     /**
