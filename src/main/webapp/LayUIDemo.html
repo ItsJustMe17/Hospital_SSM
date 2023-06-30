@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<!--引入layui  -->
+	<link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+	<!--引入layui  -->
+	<script src="layui/layui.js" charset="utf-8"></script>
+	<!--引入jquery  -->
+	<script src="js/jquery-2.1.1.min.js" charset="utf-8"></script>
+<body>
+	<!-- 查询条件DIV-->
+	<div class="layui-form-item" style="margin-top: 10px;">
+		<form class="layui-form" onsubmit="return false;">
+			<label class="layui-form-mid">名称:</label>
+			<div class="layui-input-inline" style="width: 120px;">
+				<input type="text" name="pName" autocomplete="off" class="layui-input">
+			</div>
+			
+			<label class="layui-form-mid">时间:</label>
+			<div class="layui-input-inline" style="width: 120px;">
+				<input type="text" name="beginTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+			</div>
+			<label class="layui-form-mid">--</label>
+			<div class="layui-input-inline" style="width: 120px;">
+				<input type="text" name="endTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+			</div>
+			
+			<label class="layui-form-mid">分类:</label>
+			<div class="layui-input-inline" style="width: 200px;">
+				<select name="pType">
+					<option value="">请选择</option>
+				</select>
+			</div>
+			
+			<div class="layui-input-inline" style="width: 300px;">
+				<button class="layui-btn" lay-submit="" lay-filter="search" id="search" data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+				<button class="layui-btn layui-btn-normal" type="reset" ><i class="layui-icon">&#xe666;</i>重置</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- 详情的弹层DIV  -->
+	<div id="detailDIV" style="display: none; margin-top: 20px;">
+		<form class="layui-form" lay-filter="detailForm" id="detailForm"
+			action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">产品名称:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="pName" class="layui-input" disabled="disabled">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">生产厂家:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="factory" class="layui-input"  disabled="disabled">
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- 添加的弹层DIV  -->
+	<div id="addDIV" style="display: none; margin-top: 20px;">
+		<form class="layui-form" lay-filter="addForm" id="addForm"
+			action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>产品名称:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="pName" class="layui-input" 
+							autocomplete="off" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>正常售价:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="sellPrice"
+						class="layui-input" autocomplete="off" lay-verify="required|number">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>开售时间:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="onSaleTime" placeholder="yyyy-MM-dd HH:mm:ss" 
+						class="layui-input" autocomplete="off" lay-verify="required|datetime">
+				</div>
+			</div>
+			<div class="layui-btn-container" style="text-align:center;">
+				<button class="layui-btn" lay-filter="addSubmitBtn" lay-submit="">提交</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- 编辑的弹层DIV  -->
+	<div id="editDIV" style="display: none; margin-top: 20px;">
+		<form class="layui-form" lay-filter="editForm" id="editForm"
+			action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>产品名称:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="pName" class="layui-input" 
+							autocomplete="off" lay-verify="required">
+					<input type="hidden"  name="id" > <!--隐藏域，用来保存id的值-->		
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>正常售价:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="sellPrice"
+						class="layui-input" autocomplete="off" lay-verify="required|number">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span style="color: red">*</span>开售时间:</label>
+				<div class="layui-input-inline" style="width: 350px;">
+					<input type="text" name="onSaleTime" placeholder="yyyy-MM-dd HH:mm:ss" 
+						class="layui-input" autocomplete="off" lay-verify="required|datetime">
+				</div>
+			</div>
+			<div class="layui-btn-container" style="text-align:center;">
+				<button class="layui-btn" lay-filter="editSubmitBtn" lay-submit="">提交</button>
+			</div>
+		</form>
+	</div>
+
+	<!--定义数据表格table  -->
+	<table class="layui-hide" id="proTable" lay-filter="filterTable"></table>
+	
+	
+	<!-- 图片上传的弹层页面  -->
+	<div id="imgUploadLayer" style="display: none; margin-top: 20px;">
+		<form class="layui-form" lay-filter="imgForm" id="imgForm"
+			action="">
+			<input type="hidden" id="pid-img" name="pid" class="layui-input">
+			<input type="hidden" id="mainImgUrl" name="mainImgUrl" class="layui-input">
+			<input type="hidden" id="futuImgUrl" name="futuImgUrl" class="layui-input">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+			  <legend>产品图片上传，上传完后记得提交哦</legend>
+			</fieldset>
+			<div class="layui-upload" style="margin-left: 10px">
+			  <button type="button" class="layui-btn" id="maintu">主图上传</button>
+			  <div class="layui-upload-list">
+			    <img class="layui-upload-img" id="demo1" style="width: 300px;height:200px" />
+			    <p id="demoText1"></p>
+			  </div>
+			</div>
+			<div class="layui-upload" style="margin-left: 10px">
+			  <button type="button" class="layui-btn" id="futu">副图上传</button>
+			  <div class="layui-upload-list">
+			    <img class="layui-upload-img" id="demo2" style="width: 300px;height:200px" />
+			    <p id="demoText2"></p>
+			  </div>
+			</div>  
+			<div class="layui-btn-container" style="text-align: center;">
+				<button class="layui-btn" lay-filter="imgSubmit" lay-submit="">提交</button>
+			</div>
+		</form>
+	</div>
+	
+	<!--	表格里操作栏的查看、编辑等按钮  -->
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail"><i class="layui-icon">&#xe615;</i>查看详情</a>
+		<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+		
+		{{# if (d.status == 1){}}
+           <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit"><i class="layui-icon">&#xe642;</i>发货</a>	
+        {{# } }}
+	</script>
+	
+	<!--	表格工具栏的新增、批量操作等按钮  -->
+	<script type="text/html" id="toolbarDemo">
+  		<div class="layui-btn-container">
+    		<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+    		<button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delAll"><i class="layui-icon">&#xe640;</i>批量刪除</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="export"><i class="layui-icon">&#xe654;</i>导出</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" id="importExcel" lay-event="import"><i class="layui-icon">&#xe654;</i>导入</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="downloadTemplate"><i class="layui-icon">&#xe654;</i>下载模板</button>
+  		</div>
+	</script>
+	
+	<!-- 开关1（既能开也能关） -->
+	<script type="text/html" id="switchBar1">
+		<input type="checkbox" data-id="{{d.id}}" name="status" lay-filter="isLockSwitch" lay-skin="switch" lay-text="已锁定|未锁定" {{d.isLock=="1" ? "checked":""}}>
+	</script>
+	<!-- 开关2（只能关，不能开） -->
+	<script type="text/html" id="switchBar2">
+		<input type="checkbox" data-id="{{d.id}}" name="status" lay-filter="isAdminSwitch" lay-skin="switch" lay-text="是|不是" {{d.isAdmin=="0" ? "disabled":""}} {{d.isAdmin=="1" ? "checked":""}}>
+	</script>
+	
+	<script>
+	/*定义好各种组件   */
+	layui.use(['laydate','layer','form','table','tree','upload'], function() {
+		var laydate = layui.laydate	//日期组件
+			,layer = layui.layer	//弹层组件
+			,form = layui.form		//表单组件
+			,tree = layui.tree		//树形结构组件
+			,upload = layui.upload  //上传组件
+			,$= layui.jquery    	//jquery
+			,table = layui.table;	//表格组件
+			
+			/* 渲染日期组件  */
+			laydate.render({
+				  elem: '#beginTime'
+			});
+			laydate.render({
+				  elem: '#onSaleTime'
+				 ,type: 'datetime'
+			});
+			
+			//获取分类，填充下拉选框的数据
+			$(function() {
+				$.ajax({
+					type: 'get',				
+					url: '',					
+					dataType: 'json',
+					success: function(data) {
+						$.each(data, function(index, item) {
+							//填充下拉列表
+							$('#pType').append(new Option(item.name, item.id)); 
+						});
+						layui.form.render("select");
+					},
+					error: function() {
+						alert("获取失败！！！")
+					}
+				});
+			})
+		
+		//使用表格组件，渲染表格，填充数据
+	 	table.render({
+			elem: '#proTable',	 				//表格的id		
+			url: 'productListServlet',			//提交到后台的地址
+			method: 'get', 						//请求方式
+			even: true, 						//隔行变色			
+			page: true,							//开启分页			
+			toolbar: '#toolbarDemo', 			//开启头部工具栏
+			title: '产品表', 					//表格名称		
+			cols: [ //定义所有列的，第一列是复选框列，最后一列是操作列，中间的是数据列
+				[{
+					field: 'ck',   				//固定值，这一列是复选框
+					fixed: 'left', 				//表示靠左固定（只有left和right两个值）
+					type: 'checkbox', 			//表示复选框
+					width: 100      			
+				},{
+					field: 'id',	//字段属性
+					align:'center', //数据对齐
+					width: 80,	    //宽度（可选）
+					title: '编号',	//名称
+					sort: true		//开启排序（可选）
+				},{
+					field: 'imgMain',
+					title: '主图',
+					templet:
+						'<div><img src="{{d.imgMain}}"></div>'
+				},{
+					field: 'pName',
+					width: 200,
+					title: '产品名称'
+				},{
+					field: 'sellPrice',
+					width: 120,
+					title: '正常价格',
+					templet:'<div>{{d.sellPrice.toFixed(2)}}</div>'
+				},{
+					field: 'isLock',
+					title: '是否锁定',
+					width: 120,
+					toolbar:'#switchBar1'
+				},{
+					field: 'status', 
+					title: '订单状态',
+					width: 100,
+					fixed: 'right', 
+					templet: function (d) {
+						 if (d.status == 4) {
+							 return '<div style="color:#5FB878;" >已完成</div>';
+						  }else if(d.status == 0){
+							 return '<div style="color:#FF5722;" >待付款</div>';
+						  }else if(d.status == 1){
+							 return '<div style="color:#FFB800;" >待发货</div>';
+						  }else if(d.status == 2){
+							  return '<div style="color:#1E9FFF;" >待收货</div>';
+						  }else if(d.status == 3){
+							  return '<div style="color:#2F4056;" >待评价</div>';
+						  }else{
+							  return '<div style="color:#c2c2c2;" >000000</div>';
+						  }
+					   }
+				},{
+					fixed: 'right',
+					width: 150,
+					title: '操作',
+					toolbar: '#barDemo'
+				}]
+			]
+		});
+		
+			
+	 	/*
+			条件查询
+		*/
+	    form.on('submit(search)', function (data) {
+	        var field = data.field;
+	        //执行重载
+	        table.reload('proTable', {
+	            page: { curr: 1 },
+	            where: field
+	        });
+	    }); 
+		
+		// 处理开关：点击时把信息传入到后台进行修改（isLockSwitch写对应开关的lay-filter值即可）
+		  form.on('switch(isLockSwitch)', function (data) {
+			  var id = $(this).attr('data-id');			//获得当前点击对象的id值
+			  var valid = this.checked ? 'on' : 'off';	//获取到点击后的开关状态（on/off）
+			  var x=data.elem.checked;					//获取到点击后的开关状态（true/false）
+			  layer.open({
+				  content: '确定要修改状态吗？'				//给用户的友好提示
+				  ,btn: ['确定', '取消']
+				  ,yes: function(index, layero){
+					  data.elem.checked=x;
+					  layer.close(index);
+					  $.ajax({
+						  type : "POST",
+						  url : "",
+						  data : {"id" : id , "valid" : valid},
+						  success : function(res) {
+							  layer.msg(res.msg);
+							  form.render();
+						  },
+						  error : function() {
+						  }
+					  });
+				  }
+				  ,btn2: function(index, layero){
+					  //按钮【按钮二】的回调
+					  data.elem.checked=!x;
+					  form.render();
+					  layer.close(index);
+					  //return false 开启该代码可禁止点击该按钮关闭
+				  }
+				  ,cancel: function(){
+					  //右上角关闭回调
+					  data.elem.checked=!x;
+					  form.render();
+					  //return false 开启该代码可禁止点击该按钮关闭
+				  }
+			  });
+			  form.render();
+			  return false;
+		  });
+		
+			
+		//	表格头部工具栏事件监听
+		table.on('toolbar(filterTable)', function(obj){
+			 var event = obj.event;//获取lay-event的值
+			 if(event == 'add'){ //添加操作
+				// 清空form里的数据
+				$("#addForm")[0].reset();
+				
+				//打开添加的弹层 
+				 layer.open({
+						type: 1, 
+						title: '您正在添加信息',
+						content: $("#addDIV"),
+						area: ['60%','80%']
+					});
+				
+			 }else if(event == 'delAll'){ //批量操作
+				 //获取勾选的数据
+				 var checkStatus = table.checkStatus('proTable');
+				 var ids = [];
+				 for(var i=0;i<checkStatus.data.length;i++){
+				 	ids.push(checkStatus.data[i].id);
+				 }
+				 if(ids.length == 0){
+                	alert("请选择需要删除的产品");
+                	return;
+	             }
+				//	把选中的id拼接成 2,4,5 这种形式
+				 var idStr = ids.join(",");  
+				//	使用ajax发送请求给后台
+				if(confirm("确定删除吗")){
+					$.ajax({
+						type: 'post', 						//请求方式			
+						url: 'productDelAllServlet',		//请求地址				
+						data: {"ids":idStr}, 				//参数
+						dataType: 'json', 					//返回数据的格式	
+						success: function(res) { 			// 提交成功
+							 //提示信息
+							 layer.alert(res.msg);
+							 //刷新表格
+							 table.reload('proTable');
+						},
+						error: function() { 				//提交失败
+							alert("系统异常！！")
+						}
+					}); 
+				}
+				 
+			 }else if(event == 'export'){
+				//导出excel
+				window.location.href = "excel/export";
+			 }else if(event == 'import'){
+				//导入excel在外面
+				 return false;  
+			 }else if(event == 'downloadTemplate'){
+				//下载模板
+				 window.location.href = "成员模板.xlsx";
+			 }
+		
+		});
+		
+		
+		 //导入excel
+		  var uploadInst = upload.render({
+				elem: '#importExcel', //绑定元素
+				url: 'excel/import', //上传接口
+				accept:'file',
+				done: function(res){
+				  //上传完毕回调
+				  if(res.code==0){
+					  layer.msg(res.msg,{icon:1,time:2000},function(){
+						//刷新当前页面
+							window.location.reload();
+					  });
+				  }else{
+					  layer.msg(res.msg,{icon:2,time:2000});
+				  }
+				},
+				error: function(){
+					layer.msg("导入失败",{icon:2,time:2000});
+				}
+		  });
+		
+		// 表格数据里的事件监听（点击操作列里的按钮，比如查看详情等进来这里）
+		table.on('tool(filterTable)',function(obj){
+			var data = obj.data;	//	获取当前行的数据
+			var event = obj.event;	// 	获取lay-event的值(根据这个值来判断是什么按钮)
+			
+			if(event == 'detail'){	// 查看详情操作
+				
+				// 清空form里的数据
+				$("#detailForm")[0].reset();
+				
+				//	数据回显
+				form.val("detailForm",data);
+				//	打开弹层
+				layer.open({
+					type: 1, 
+					title: '您正在查看编号为【'+data.id+'】信息',
+					content: $("#detailDIV"),
+					area: ['60%','80%']
+				});
+				
+			}else if(event == 'edit'){	// 编辑操作
+				
+				// 清空form里的数据
+				$("#editForm")[0].reset();
+				//数据回显
+				form.val("editForm",data);
+				//打开弹层
+				layer.open({
+					type: 1,
+					title: '您正在编辑编号为【'+data.id+'】信息',
+					content: $("#editDIV"),
+					area: ['60%','80%']
+				});
+				
+			}else if(event == 'del'){	//	删除操作
+				if(confirm("确定删除吗？")){
+					//	使用ajax发送请求给后台（调用servlet）
+	    			$.ajax({
+						type: 'post', 				//请求方式
+						url: 'productDelServlet',	//请求路径	 			
+						data: {"id":data.id}, 		//请求参数：“id”是参数名称，参数值从当前行的数据里获取		
+						dataType: 'json', 			//返回格式	
+						success: function(res) { 	//提交成功	
+							layer.alert(res.msg);	
+							table.reload('proTable',{page:{curr:1}}) 	
+						},
+						error: function() { //提交失败
+							alert("系统异常！！")
+						}
+					}); 
+	    		}
+			}
+			
+		});
+		
+		//监听新增弹层的提交按钮（当点击新增弹层的提交按钮执行这里）
+		  form.on('submit(addSubmitBtn)', function (data) {
+			  $.ajax({
+					type: 'post', 				
+					url: 'productAddServlet',	 				
+					data: $("#addForm").serialize(),
+					dataType: 'json', 				
+					success: function(res) { //提交成功
+						 layer.alert(res.msg, {
+				              icon: 6
+				            }, function () {
+				            	//关闭弹层
+				            	layer.closeAll();
+				            	//刷新表格
+				            	table.reload('proTable',{page:{curr:1}});
+				            });
+					},
+					error: function() { //提交失败
+						alert("系统异常！！")
+					}
+				}); 
+
+		    return false;
+		  });
+		
+		 //监听修改弹层的提交按钮（当点击修改弹层的提交按钮执行这里）
+		  form.on('submit(editSubmitBtn)', function (data) {
+			  $.ajax({
+					type: 'post', 				
+					url: 'productEditServlet',	 				
+					data: $("#editForm").serialize(),
+					dataType: 'json', 				
+					success: function(res) { //提交成功
+						 layer.alert(res.msg, {
+				              icon: 6
+				            }, function () {
+				            	//关闭弹层
+				            	layer.closeAll();
+				            	//刷新表格
+				            	table.reload('proTable',{page:{curr:1}});
+				            });
+					},
+					error: function() { //提交失败
+						alert("系统异常！！")
+					}
+				}); 
+
+		    return false;
+		  });
+		  
+		  //主图片上传
+			var uploadInst1 = upload.render({
+				elem: '#maintu'
+				,url: 'uploadImg.do'
+				,accept:'images'
+				,size:50000
+				,before: function(obj){
+					//预读本地文件
+					obj.preview(function(index, file, result){
+						$('#demo1').attr('src', result);
+					});
+				}
+				,done: function(res){
+					//如果上传失败
+					if(res.code > 0){
+						return layer.msg('上传失败');
+					}
+					
+					//上传成功
+					var demoText = $('#demoText1');
+					demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+					//图片url填写
+					var fileupload = $("#mainImgUrl");
+					fileupload.attr("value",res.data);
+				}
+				,error: function(){
+					//演示失败状态，并实现重传
+					var demoText = $('#demoText1');
+					demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+					demoText.find('.demo-reload').on('click', function(){
+						uploadInst1.upload();
+					});
+				}
+			});
+		   //副图片上传
+			var uploadInst2 = upload.render({
+				elem: '#futu'
+				,url: 'uploadImg.do'
+				,accept:'images'
+				,size:50000
+				,before: function(obj){
+					//预读本地文件
+					obj.preview(function(index, file, result){
+						$('#demo2').attr('src', result);
+					});
+				}
+				,done: function(res){
+					//如果上传失败
+					if(res.code > 0){
+						return layer.msg('上传失败');
+					}
+					
+					//上传成功
+					var demoText = $('#demoText2');
+					demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+					//图片url填写
+					var fileupload = $("#futuImgUrl");
+					fileupload.attr("value",res.data);
+				}
+				,error: function(){
+					//演示失败状态，并实现重传
+					var demoText = $('#demoText2');
+					demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+					demoText.find('.demo-reload').on('click', function(){
+						uploadInst2.upload();
+					});
+				}
+			});
+		   
+			//图片上传的提交按钮
+			form.on('submit(imgSubmit)', function(data) {
+				console.log($("#imgForm").serialize());
+				$.ajax({
+					type: 'post', 					//提交方式get或post
+					url: '', 						//提交路径
+					data: $("#imgForm").serialize(), 	//参数
+					dataType: 'json', 					//返回的数据类型
+					success: function(res) { 		//提交成功
+						layer.closeAll();			//关闭弹层
+						layer.alert(res.msg);		//提示信息
+						table.reload('proTable'); 	//刷新表格
+					},
+					error: function() { //提交失败
+						alert("系统异常！！")
+					}
+				}); 
+				return false;
+			});
+
+		 
+	});
+	
+	
+	</script>
+
+</body>
+</html>
