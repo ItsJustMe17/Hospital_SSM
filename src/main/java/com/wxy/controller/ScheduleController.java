@@ -1,8 +1,11 @@
 package com.wxy.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.wxy.common.result.ResultUtils;
+import com.wxy.common.util.EmptyUtils;
 import com.wxy.common.util.PasswordUtil;
+import com.wxy.entity.Room;
 import com.wxy.entity.Schedule;
 import com.wxy.entity.User;
 import com.wxy.entity.dto.ScheduleDto;
@@ -28,7 +31,7 @@ public class ScheduleController extends ApiController {
     private ScheduleService scheduleService;
 
     //查询所有排版记录
-    @GetMapping("/getScheduleList")
+    @GetMapping("/getAllSchedule")
     public Object getList(ScheduleDto scheduleDto) {
         List<Schedule> schedules = scheduleService.getAllSchedule(scheduleDto);
         scheduleDto.setLimit(null);
@@ -46,6 +49,16 @@ public class ScheduleController extends ApiController {
         }
         return ResultUtils.returnFail();
     }
+
+    @GetMapping("/getSchedulersByDIT")
+    public Object getSchedulersByDIT(
+            @RequestParam("departmentId") String departmentId,
+            @RequestParam("inquiryTime") String inquiryTime,
+            @RequestParam("timeSlot") String timeSlot) {
+        List<ScheduleDto> schedules = scheduleService.getSchedulersByDIT(departmentId, inquiryTime, timeSlot);
+        return ResultUtils.returnDataSuccess(schedules);
+    }
+
 
 //    //添加排版记录(多个时间添加)
 //    @RequestMapping("/addSchedule1")

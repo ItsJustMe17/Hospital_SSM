@@ -96,7 +96,6 @@ public class UserController {
             return ResultUtils.returnFail();
         }
     }
-
     @RequestMapping("/updateUserById")
     public Object updateUserById(User user) {
         //在PasswordUtil工具类中获取一个随机盐值

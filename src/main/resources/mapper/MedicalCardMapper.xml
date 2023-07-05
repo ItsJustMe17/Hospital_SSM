@@ -5,16 +5,26 @@
 <mapper namespace="com.wxy.mapper.MedicalCardMapper">
 
     <resultMap id="BaseResultMap" type="com.wxy.entity.MedicalCard">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="patientName" column="patient_name" jdbcType="VARCHAR"/>
-            <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
-            <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="VARCHAR"/>
-            <result property="dateOfBirth" column="date_of_birth" jdbcType="DATE"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="patientName" column="patient_name" jdbcType="VARCHAR"/>
+        <result property="idCardNumber" column="id_card_number" jdbcType="VARCHAR"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+        <result property="dateOfBirth" column="date_of_birth" jdbcType="DATE"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,patient_name,id_card_number,
-        phone_number,gender,date_of_birth
+        id
+        ,patient_name,id_card_number,
+        phone_number,gender,date_of_birth,
+        created_time,updated_time
     </sql>
+    <select id="getMedicalCardByIdCard" resultType="com.wxy.entity.MedicalCard">
+        select
+        <include refid="Base_Column_List"/>
+        from medical_card
+        where id_card_number = #{IdCard}
+    </select>
 </mapper>

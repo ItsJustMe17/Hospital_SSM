@@ -15,7 +15,8 @@ public interface ScheduleService extends IService<Schedule> {
 
     List<Schedule> getAllSchedule(ScheduleDto scheduleDto);
 
-//    boolean saveBatchByInquiry(Schedule schedule, String inquiryTimeArr);
+    List<ScheduleDto> getSchedulersByDIT(String departmentId, String inquiryTime, String timeSlot);
 
+//    boolean saveBatchByInquiry(Schedule schedule, String inquiryTimeArr);
 
 }

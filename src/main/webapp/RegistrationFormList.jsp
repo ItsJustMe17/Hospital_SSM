@@ -10,20 +10,37 @@
 <form class="layui-form" action="">
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">用户名：</label>
+            <label class="layui-form-label">就诊科室：</label>
+            <div class="layui-input-inline" style="width: 150px;">
+                <select name="departmentId" class="departmentId">
+                    <option value="">请选择就诊科室</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">病人名：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="patientName" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">医生名：</label>
             <div class="layui-input-inline" style="width: 100px;">
                 <input type="text" name="userName" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">所属部门：</label>
-            <div class="layui-input-inline" style="width: 150px;">
-                <select name="departmentId" class="departmentId">
-                    <option value="">请选择所属部门</option>
+            <label class="layui-form-label">问诊状态：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <select name="consultationStatus" class="layui-select">
+                    <option value="" >请选择问诊状态</option>
+                    <option value="1">已问诊</option>
+                    <option value="2">未问诊</option>
+                    <option value="3">正在问诊</option>
                 </select>
             </div>
         </div>
-        <%--    按钮--%>
+        <%-- 按钮--%>
         <div class="layui-inline">
             <button class="layui-btn" lay-submit="" lay-filter="formDemo">
                 <i class="layui-icon">&#xe615;</i>搜索
@@ -34,25 +51,6 @@
         </div>
     </div>
 </form>
-
-<%-- 表格 --%>
-<table id="demo" lay-filter="test"></table>
-
-
-<%--头部工具条--%>
-<script type="text/html" id="toolbarDemo1">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-    </div>
-</script>
-
-<%--行内工具条--%>
-<script type="text/html" id="toolbarDemo2">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
-        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
-    </div>
-</script>
 
 <%--添加的表单--%>
 <form class="layui-form" action="" id="addForm" style="display: none">
@@ -69,7 +67,7 @@
         <label class="layui-form-label">姓名：</label>
         <div class="layui-input-inline">
             <select name="userId" class="layui-select" id="userId">
-                <option value="" selected="selected" >请选择工作人员</option>
+                <option value="" selected="selected">请选择工作人员</option>
             </select>
         </div>
     </div>
@@ -136,6 +134,26 @@
         </div>
     </div>
 </form>
+
+<%-- 表格 --%>
+<table id="demo" lay-filter="test"></table>
+
+
+<%--头部工具条--%>
+<script type="text/html" id="toolbarDemo1">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+
+<%--行内工具条--%>
+<script type="text/html" id="toolbarDemo2">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+    </div>
+</script>
+
 
 <%--脚本--%>
 <script>
@@ -210,7 +228,7 @@
         //表单监听提交--添加
         form.on('submit(addFormBtn)', function (data) {
             //layer.msg(JSON.stringify(data.field));  //   {"sname":"","sex":"","score_min":"","score_max":""}
-            $.post("schedule/addSchedule", data.field, function (res) {
+            $.post("registrationForm/addSchedule", data.field, function (res) {
                 if (res.code == 200) {
                     layer.msg('添加成功', {
                         icon: 1,
@@ -242,7 +260,7 @@
         //表单监听提交--修改
         form.on('submit(updateFormBtn)', function (data) {
             //layer.msg(JSON.stringify(data.field));  //   {"sname":"","sex":"","score_min":"","score_max":""}
-            $.post("schedule/updateScheduleById", data.field, function (res) {
+            $.post("registrationForm/updateScheduleById", data.field, function (res) {
                 if (res.code == 200) {
                     layer.msg('修改成功', {
                         icon: 1,
@@ -278,7 +296,7 @@
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
-                        $.post("schedule/removeScheduleById", obj.data, function (res) {
+                        $.post("registrationForm/removeScheduleById", obj.data, function (res) {
                             if (res.code == 200) {
                                 layer.msg("删除成功")
                             }
@@ -304,14 +322,17 @@
             id: 'idTest'
             , elem: '#demo'
             , toolbar: '#toolbarDemo1'
-            , url: 'schedule/getAllSchedule' //数据接口
+            , url: 'registrationForm/getAllRegistrationForm' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                {field: 'id', title: '排班ID', width: 100, sort: true, fixed: 'left', align: 'center'}
-                , {field: 'userName', title: '用户名', width: 100, align: 'center'}
-                , {field: 'deptName', title: '部门名', width: 100, align: 'center'}
-                , {field: 'roomName', title: '房间名', width: 120, align: 'center'}
-                , {field: 'inquiryTime', title: '就诊时间', width: 120, align: 'center'}
+                  {field: 'id', title: '挂号单ID', width: 100, sort: true, fixed: 'left', align: 'center'}
+                , {field: 'patientName', title: '病人名', width: 100, align: 'center'}
+                , {field: 'sex', title: '性别', width: 100, align: 'center'}
+                , {field: 'idCard', title: '身份证号', width: 120, align: 'center'}
+                , {field: 'deptName', title: '科室', width: 120, align: 'center'}
+                , {field: 'roomName', title: '房间', width: 120, align: 'center'}
+                , {field: 'userName', title: '医生名', width: 120, align: 'center'}
+                , {field: 'inquiryTime', title: '问诊时间', width: 120, align: 'center'}
                 , {
                     field: 'timeSlot', title: '时间段（上午，下午）', width: 180, align: 'center',
                     templet: function (d) {
@@ -324,9 +345,8 @@
                         }
                     }
                 }
-                , {field: 'totalPatientCount', title: '就诊总人数', width: 120, align: 'center'}
-                , {field: 'remainingPatientCount', title: '剩余就诊人数', width: 120, align: 'center'}
-                , {title: '操作', width: 130, toolbar: '#toolbarDemo2', fixed: 'right', align: 'center'}
+                , {field: 'consultationStatus', title: '问诊状态', width: 120, align: 'center'}
+                , {title: '操作', width: 130, toolbar: '#toolbarDemo2', align: 'center', fixed: 'right'}
 
             ]]
         });

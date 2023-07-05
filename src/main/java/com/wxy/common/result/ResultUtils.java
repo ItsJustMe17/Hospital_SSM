@@ -19,6 +19,13 @@ public class ResultUtils {
 		Result Result = new Result("0","",data,count);
 		return Result;
 	}
+	/**
+	 * 统一返回成功的ResultLayui
+	 */
+	public static Result returnFailLayui() {
+		Result Result = new Result("1","");
+		return Result;
+	}
 
 	/**
 	 * 统一返回成功的Result 带数据

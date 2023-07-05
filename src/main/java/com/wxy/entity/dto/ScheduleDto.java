@@ -2,7 +2,9 @@ package com.wxy.entity.dto;
 
 import com.wxy.entity.Schedule;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ScheduleDto extends Schedule {
 

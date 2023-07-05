@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
@@ -35,6 +38,30 @@ public class RegistrationForm implements Serializable {
     private Integer scheduleId;
 
     /**
+     * 用户表主键ID
+     */
+    @TableField(value = "user_id")
+    private Integer userId;
+
+    /**
+     * 就诊科室表主键ID
+     */
+    @TableField(value = "department_id")
+    private Integer departmentId;
+
+    /**
+     * 就诊房间表主键ID
+     */
+    @TableField(value = "room_id")
+    private Integer roomId;
+
+    /**
+     * 费用
+     */
+    @TableField(value = "fee")
+    private BigDecimal fee;
+
+    /**
      * 问诊状态（1表示已问诊，2表示未问诊，3表示正在问诊）
      */
     @TableField(value = "consultation_status")
@@ -44,19 +71,25 @@ public class RegistrationForm implements Serializable {
      * 问诊时间
      */
     @TableField(value = "consultation_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime consultationTime;
 
     /**
      * 挂号单创建时间
      */
-    @TableField(value = "creation_time")
-    private LocalDateTime creationTime;
+    @TableField(value = "created_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createdTime;
 
     /**
-     * 费用
+     * 修改时间
      */
-    @TableField(value = "fee")
-    private BigDecimal fee;
+    @TableField(value = "updated_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updatedTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -76,10 +109,14 @@ public class RegistrationForm implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMedicalCardId() == null ? other.getMedicalCardId() == null : this.getMedicalCardId().equals(other.getMedicalCardId()))
             && (this.getScheduleId() == null ? other.getScheduleId() == null : this.getScheduleId().equals(other.getScheduleId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()))
+            && (this.getRoomId() == null ? other.getRoomId() == null : this.getRoomId().equals(other.getRoomId()))
+            && (this.getFee() == null ? other.getFee() == null : this.getFee().equals(other.getFee()))
             && (this.getConsultationStatus() == null ? other.getConsultationStatus() == null : this.getConsultationStatus().equals(other.getConsultationStatus()))
             && (this.getConsultationTime() == null ? other.getConsultationTime() == null : this.getConsultationTime().equals(other.getConsultationTime()))
-            && (this.getCreationTime() == null ? other.getCreationTime() == null : this.getCreationTime().equals(other.getCreationTime()))
-            && (this.getFee() == null ? other.getFee() == null : this.getFee().equals(other.getFee()));
+            && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
+            && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()));
     }
 
     @Override
@@ -89,10 +126,14 @@ public class RegistrationForm implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getMedicalCardId() == null) ? 0 : getMedicalCardId().hashCode());
         result = prime * result + ((getScheduleId() == null) ? 0 : getScheduleId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getDepartmentId() == null) ? 0 : getDepartmentId().hashCode());
+        result = prime * result + ((getRoomId() == null) ? 0 : getRoomId().hashCode());
+        result = prime * result + ((getFee() == null) ? 0 : getFee().hashCode());
         result = prime * result + ((getConsultationStatus() == null) ? 0 : getConsultationStatus().hashCode());
         result = prime * result + ((getConsultationTime() == null) ? 0 : getConsultationTime().hashCode());
-        result = prime * result + ((getCreationTime() == null) ? 0 : getCreationTime().hashCode());
-        result = prime * result + ((getFee() == null) ? 0 : getFee().hashCode());
+        result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
+        result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         return result;
     }
 
@@ -105,10 +146,14 @@ public class RegistrationForm implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", medicalCardId=").append(medicalCardId);
         sb.append(", scheduleId=").append(scheduleId);
+        sb.append(", userId=").append(userId);
+        sb.append(", departmentId=").append(departmentId);
+        sb.append(", roomId=").append(roomId);
+        sb.append(", fee=").append(fee);
         sb.append(", consultationStatus=").append(consultationStatus);
         sb.append(", consultationTime=").append(consultationTime);
-        sb.append(", creationTime=").append(creationTime);
-        sb.append(", fee=").append(fee);
+        sb.append(", createdTime=").append(createdTime);
+        sb.append(", updatedTime=").append(updatedTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

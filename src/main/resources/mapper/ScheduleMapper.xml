@@ -47,12 +47,29 @@
         <if test="roomName!=null and roomName!=''">
             and room.room_name = #{roomName}
         </if>
-        <if test="departmentId!=null and departmentId!=''">
-            and schedule.department_id = #{departmentId}
-        </if>
+
         order by schedule.id desc
         <if test="page!=null and page!='' and limit!=null and limit!=''">
             limit ${(page-1)*limit},#{limit}
         </if>
+    </select>
+    <select id="getSchedulersByDIT" resultType="com.wxy.entity.dto.ScheduleDto">
+        select schedule.*,
+               room.room_name             as roomName,
+               user.user_name             as userName,
+               department.department_name as deptName
+
+        from schedule,
+             user,
+             room,
+             department
+
+        where schedule.user_id = user.id
+          and schedule.room_id = room.id
+          and schedule.department_id = department.id
+--           and schedule.department_id = #{deptId}
+          and schedule.inquiry_time = #{inquiryTime}
+          and schedule.time_slot = #{timeSlot}
+
     </select>
 </mapper>

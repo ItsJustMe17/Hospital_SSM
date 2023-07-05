@@ -27,6 +27,11 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule>
         return scheduleMapper.getAllSchedule(scheduleDto);
     }
 
+    @Override
+    public List<ScheduleDto> getSchedulersByDIT(String departmentId, String inquiryTime, String timeSlot) {
+        return scheduleMapper.getSchedulersByDIT(departmentId,inquiryTime,timeSlot);
+    }
+
 
 //    @Override
 //    public boolean saveBatchByInquiry(Schedule schedule, String inquiryTimeArr) {

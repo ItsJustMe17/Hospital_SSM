@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
 * @author KONRAD
 * @description 针对表【medical_card】的数据库操作Service
-* @createDate 2023-06-28 21:26:58
+* @createDate 2023-07-02 16:20:16
 */
 public interface MedicalCardService extends IService<MedicalCard> {
 
+    MedicalCard getMedicalCardByIdCard(String idCard);
 }

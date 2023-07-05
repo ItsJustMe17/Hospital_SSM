@@ -61,19 +61,19 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">用户管理</a>
+                    <a class="" href="javascript:;">医院管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="UserList.jsp" target="iframeRight">用户列表</a></dd>
-                        <dd><a href="javascript:;">xxxx</a></dd>
-                        <dd><a href="javascript:;">xxx</a></dd>
+                        <dd><a href="UserList.jsp" target="iframeRight">员工列表</a></dd>
+                        <dd><a href="ScheduleList.jsp" target="iframeRight">排班管理</a></dd>
+                        <dd><a href="javascript:;" target="iframeRight">xxx</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">科室管理</a>
+                    <a href="javascript:;">病人管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="ScheduleList.jsp" target="iframeRight">排班管理</a></dd>
-                        <dd><a href="javascript:;">xxxx</a></dd>
-                        <dd><a href="javascript:;">xxx</a></dd>
+                        <dd><a href="MedicaCardList.jsp" target="iframeRight">病人管理</a></dd>
+                        <dd><a href="RegistrationFormList.jsp" target="iframeRight">挂号单管理</a></dd>
+                        <dd><a href="VerifyIdCard.jsp" target="iframeRight">门诊挂号</a></dd>
                     </dl>
                 </li>
             </ul>

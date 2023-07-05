@@ -8,15 +8,65 @@
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="medicalCardId" column="medical_card_id" jdbcType="INTEGER"/>
             <result property="scheduleId" column="schedule_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="departmentId" column="department_id" jdbcType="INTEGER"/>
+            <result property="roomId" column="room_id" jdbcType="INTEGER"/>
+            <result property="fee" column="fee" jdbcType="DECIMAL"/>
             <result property="consultationStatus" column="consultation_status" jdbcType="INTEGER"/>
             <result property="consultationTime" column="consultation_time" jdbcType="TIMESTAMP"/>
-            <result property="creationTime" column="creation_time" jdbcType="TIMESTAMP"/>
-            <result property="fee" column="fee" jdbcType="DECIMAL"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,medical_card_id,schedule_id,
-        consultation_status,consultation_time,creation_time,
-        fee
+        user_id,department_id,room_id,
+        fee,consultation_status,consultation_time,
+        created_time,updated_time
     </sql>
+    <select id="getAllRegistrationForm" resultType="com.wxy.entity.Schedule">
+        select registration_form.*,
+        medical_card.patient_name as patientName,
+        medical_card.gender as sex,
+        medical_card.id_card_number as idCard,
+        department.department_name as deptName,
+        room.room_name as roomName,
+        user.user_name as userName,
+        schedule.inquiry_time as inquiryTime,
+        schedule.time_slot as timeSlot
+
+        from user,
+        room,
+        schedule,
+        department,
+        medical_card,
+        registration_form
+
+        where registration_form.user_id = user.id
+        and registration_form.room_id = room.id
+        and registration_form.schedule_id = schedule.id
+        and registration_form.department_id = department.id
+        and registration_form.medical_card_id = medical_card.id
+
+
+        <if test="idCard!=null and idCard!=''">
+            and medical_card.id_card_number = #{idCard}
+        </if>
+        <if test="patientName!=null and patientName!=''">
+            and medical_card.patient_name = #{patientName}
+        </if>
+        <if test="departmentId!=null and departmentId!=''">
+            and schedule.department_id = #{departmentId}
+        </if>
+        <if test="userName!=null and userName!=''">
+            and user.user_name like concat('%',#{userName},'%')
+        </if>
+        <if test="consultationStatus!=null and consultationStatus!=''">
+            and registration_form.consultation_status = #{consultationStatus}
+        </if>
+        order by registration_form.id desc
+        <if test="page!=null and page!='' and limit!=null and limit!=''">
+            limit ${(page-1)*limit},#{limit}
+        </if>
+    </select>
 </mapper>
